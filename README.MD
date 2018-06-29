@@ -46,14 +46,17 @@ Check volume path:
 
       (重)jWebrtc工程代码 WebSocketServer.java 类中439行 需要修改后期部署turnserver/stunserver的url地址，由于客户端中不再配置相应的地址，全部由服务器给。然后重新构建war包，复制到webrtc目录中。
 
-    - 构建镜像路径指定为上一个目录的webrtc/dockerfile文件,使用tomcat默认SSL端口 8433
+    - 构建镜像路径指定为上一个目录的webrtc/dockerfile文件,使用tomcat默认SSL端口 8433  
+
+- 注意：两个文件 kurento/WebRtcEndpoint.conf.ini 和 tomcat/Dockerfile : <u>在每次部署的时候记得把其中配置ip 的地方换成自己实际部署ip</u>
+
 
 也可直接执行如下命令:（会执行所有包含组件）
 ```
 1. 确认当前服务器IP地址。
 2. 修改WebRtcEndpoint.conf.ini /WebSocketServer.java 中三个涉及IP 的地方。
-3. docker-compose up --build 
-4. 设置环境变量： export JAVA_OPTS="$JAVA_OPTS -Dkms.url=ws://localhost:8888/kurento -DSTUN_URL=stun:<<stun-ip>>:1111 -DTURN_USERNAME=mileworks -DTURN_PASSWORD=1234qwer -DTURN_URL=turn:<<turn-ip>>:3478"
+3. docker-compose up --build  -d
+4. 设置环境变量（注意在dockerfile中的书写）： export JAVA_OPTS="$JAVA_OPTS -Dkms.url=ws://localhost:8888/kurento -DSTUN_URL=stun:<<stun-ip>>:1111 -DTURN_USERNAME=mileworks -DTURN_PASSWORD=1234qwer -DTURN_URL=turn:<<turn-ip>>:3478"
 ```
 附件：webrtc流程图
 

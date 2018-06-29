@@ -1,12 +1,18 @@
 FROM ubuntu:14.04
 LABEL maintainer "MileWorks <borrip0419@gmail.com>"
 
-ENV TOMCAT_VERSION 7.0.85
+ENV TOMCAT_VERSION 7.0.88
 
 # Set locales
 RUN locale-gen en_GB.UTF-8
 ENV LANG en_GB.UTF-8
 ENV LC_CTYPE en_GB.UTF-8
+ENV TURN_USERNAME mileworks
+ENV TURN_PASSWORD 1234qwer
+ENV TURN_URL turn:101.37.27.202:3478
+ENV STUN_URL stun:101.37.27.202:1111
+ENV DEFAULT_KMS_WS_URI ws://101.37.27.202:8888/kurento
+ENV JAVA_OPTS="$JAVA_OPTS -Dkms.url=ws://101.37.27.202:8888/kurento -DSTUN_URL=stun:101.37.27.202:1111 -DTURN_USERNAME=mileworks -DTURN_PASSWORD=1234qwer -DTURN_URL=turn:101.37.27.202:3478"
 
 # Fix sh
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
@@ -28,7 +34,7 @@ rm -rf /var/cache/oracle-jdk8-installer
 ENV JAVA_HOME /usr/lib/jvm/java-8-oracle
 
 # Get Tomcat
-RUN wget --quiet --no-cookies http://mirrors.hust.edu.cn/apache/tomcat/tomcat-7/v7.0.85/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz -O /tmp/tomcat.tgz
+RUN wget --quiet --no-cookies http://mirrors.hust.edu.cn/apache/tomcat/tomcat-7/v7.0.88/bin/apache-tomcat-${TOMCAT_VERSION}.tar.gz -O /tmp/tomcat.tgz
 RUN tar xzvf /tmp/tomcat.tgz -C /opt
 RUN mv /opt/apache-tomcat-${TOMCAT_VERSION} /opt/tomcat
 RUN rm /tmp/tomcat.tgz
